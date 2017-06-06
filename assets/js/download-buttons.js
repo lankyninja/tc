@@ -3,7 +3,8 @@ $.getJSON('https://api.github.com/repos/mccxiv/tc/releases?callback=?', function
     $('.release-name').html(response.data[0].name);
     response.data[0].assets.forEach(function(asset) {
       setLink('.tc-osx', '.dmg', asset);
-      setLink('.tc-setup', '.exe', asset);
+      setLink('.tc-win', '.exe', asset);
+      setLink('.tc-linux', '.AppImage', asset);
     });
 
     for (var i = 0; i < 26; i++) {
