@@ -20,6 +20,17 @@ gulp.task('dev-launch-electron', function () {
   ))
 })
 
+gulp.task('build:windows', function () {
+  shell.rm('-rf', '_dist')
+  shell.mkdir('-p', '_dist')
+  shell.rm('-rf', '_build')
+  shell.exec(path.normalize('./node_modules/.bin/webpack --mode production'))
+  shell.cp('src/tc-renderer/index.html', '_build/index.html')
+  shell.cp('src/package.json', '_build/package.json')
+  shell.exec(path.normalize('./node_modules/.bin/electron-packager ./_build/ TcApp'))
+  shell.exec('electron-windows-store.cmd --input-directory .\\TcApp-win32-x64\\ --output-directory .\\_ews\\ --flatten true --package-version 1.0.0.0 --package-name TcApp')
+})
+
 gulp.task('build', function () {
   shell.rm('-rf', '_dist')
   shell.mkdir('-p', '_dist')

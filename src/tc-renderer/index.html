@@ -22,6 +22,7 @@
       ng-controller="main"
       ng-class="{dark: settings.theme.dark}"
       ng-cloak
+      ng-strict-di
     >
       <section ng-if="!needLogin()" layout="row" flex class="main">
         <md-sidenav
