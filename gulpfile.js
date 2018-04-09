@@ -1,6 +1,8 @@
 const shell = require('shelljs')
+const convertToWindowsStore = require('electron-windows-store')
 const path = require('path')
 const gulp = require('gulp')
+const packageJson = require('./src/package.json')
 
 shell.config.throw = true // Throw on error
 
@@ -28,7 +30,15 @@ gulp.task('build:windows', function () {
   shell.cp('src/tc-renderer/index.html', '_build/index.html')
   shell.cp('src/package.json', '_build/package.json')
   shell.exec(path.normalize('./node_modules/.bin/electron-packager ./_build/ TcApp'))
-  shell.exec('electron-windows-store.cmd --input-directory .\\TcApp-win32-x64\\ --output-directory .\\_ews\\ --flatten true --package-version 1.0.0.0 --package-name TcApp')
+  convertToWindowsStore({
+    packageVersion: `${packageJson.version}.0`,
+    inputDirectory: '.\\TcApp-win32-x64\\',
+    outputDirectory: '.\\_dist\\windows-store',
+    packageName: 'TcApp',
+    packageDisplayName: 'Tc',
+    packageDescription: 'The chat client for Twitch'
+  })
+  // shell.exec('electron-windows-store.cmd --input-directory  --output-directory .\\_ews\\ --flatten true --package-version 1.0.0.0 --package-name TcApp')
 })
 
 gulp.task('build', function () {
