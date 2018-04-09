@@ -33,12 +33,16 @@ gulp.task('build', function () {
   shell.exec('npm run dist:mac')
   console.log('Trying to build for Windows, it might fail without Wine')
   shell.exec('npm run dist:windows')
-  shell.mv('dist/squirrel-windows/*', '_dist/')
+  shell.mv('dist/*.appx', '_dist/')
+  shell.mv('dist/*.exe', '_dist/')
   shell.mv('dist/*.dmg', '_dist/')
   shell.mv('dist/*.zip', '_dist/')
   shell.mv('dist/*.AppImage', '_dist/')
   shell.find('_dist').filter((f) => f.endsWith('.exe')).forEach((f) => {
-    shell.mv(f, f.replace('Tc Setup ', 'tc-setup-win-'))
+    shell.mv(f, f.replace('Tc ', 'tc-'))
+  })
+  shell.find('_dist').filter((f) => f.endsWith('.appx')).forEach((f) => {
+    shell.mv(f, f.replace('Tc-', 'tc-'))
   })
   shell.find('_dist').filter((f) => f.endsWith('.dmg')).forEach((f) => {
     shell.mv(f, f.replace('Tc', 'tc-setup-mac'))
